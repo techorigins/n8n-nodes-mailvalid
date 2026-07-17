@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-mailvalid",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community node for MailValid — real-time and bulk email verification (syntax, MX, SMTP, disposable and role-based detection)",
   "keywords": [
     "n8n-community-node-package",
@@ -18,25 +18,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/techorigins/n8n-nodes-mailvalid.git"
+    "url": "git+https://github.com/techorigins/n8n-nodes-mailvalid.git"
   },
   "bugs": {
     "url": "https://github.com/techorigins/n8n-nodes-mailvalid/issues"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "scripts": {
-    "build": "tsc && node scripts/copy-assets.mjs",
-    "dev": "tsc --watch",
-    "lint": "eslint nodes credentials",
-    "prepublishOnly": "npm run build"
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "prepublishOnly": "n8n-node prerelease"
   },
   "files": [
     "dist"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,
+    "strict": true,
     "credentials": [
       "dist/credentials/MailValidApi.credentials.js"
     ],
@@ -45,11 +49,11 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.7",
-    "n8n-workflow": "^1.48.0",
-    "typescript": "^5.5.4"
+    "@n8n/node-cli": "*",
+    "eslint": "9.39.4",
+    "prettier": "3.8.3",
+    "release-it": "20.2.0",
+    "typescript": "5.9.3"
   },
   "peerDependencies": {
     "n8n-workflow": "*"

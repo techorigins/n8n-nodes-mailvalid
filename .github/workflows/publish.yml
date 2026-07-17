@@ -1,0 +1,59 @@
+# Publishes this n8n community node to npm on every version tag push.
+#
+# Since May 1 2026, n8n only verifies community nodes published via GitHub
+# Actions with an npm provenance statement — nodes published from a local
+# machine are rejected. This workflow satisfies that requirement: provenance
+# lets anyone cryptographically verify the package was built by this exact
+# workflow, from this exact repository and commit.
+#
+# ─── ONE-TIME SETUP (npm Trusted Publisher, OIDC — no secrets needed) ──────────
+#   1. npmjs.com → the n8n-nodes-mailvalid package → Settings
+#   2. Publish access → Trusted Publishers → Add a publisher
+#   3. Select GitHub Actions and fill in:
+#        Repository owner: techorigins
+#        Repository name:  n8n-nodes-mailvalid
+#        Workflow name:    publish.yml
+#        Environment:      (leave blank)
+#   4. Leave NPM_TOKEN unset — GitHub's OIDC token is used instead.
+#
+# ─── RELEASE ───────────────────────────────────────────────────────────────────
+#   Bump the version, then tag and push:
+#     git tag 0.1.1 && git push origin 0.1.1
+#   The tag push triggers this workflow, which publishes to npm with provenance.
+
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # required to mint the OIDC token for provenance
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      # npm provenance + OIDC trusted publishing needs npm >= 11.5.1
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Publish with provenance
+        run: npm publish --provenance --access public

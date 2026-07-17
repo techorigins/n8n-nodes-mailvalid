@@ -1,10 +1,11 @@
+import { NodeConnectionTypes } from 'n8n-workflow';
 import type { INodeType, INodeTypeDescription } from 'n8n-workflow';
 
 export class MailValid implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'MailValid',
 		name: 'mailValid',
-		icon: 'file:mailvalid.svg',
+		icon: { light: 'file:mailvalid.svg', dark: 'file:mailvalid.dark.svg' },
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"]}}',
@@ -13,8 +14,9 @@ export class MailValid implements INodeType {
 		defaults: {
 			name: 'MailValid',
 		},
-		inputs: ['main'],
-		outputs: ['main'],
+		usableAsTool: true,
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
 		credentials: [
 			{
 				name: 'mailValidApi',

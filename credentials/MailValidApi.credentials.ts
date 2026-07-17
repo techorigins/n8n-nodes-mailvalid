@@ -1,5 +1,6 @@
 import type {
 	IAuthenticateGeneric,
+	Icon,
 	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
@@ -9,6 +10,8 @@ export class MailValidApi implements ICredentialType {
 	name = 'mailValidApi';
 
 	displayName = 'MailValid API';
+
+	icon: Icon = { light: 'file:mailvalid.svg', dark: 'file:mailvalid.dark.svg' };
 
 	documentationUrl = 'https://mailvalid.io/docs/';
 
