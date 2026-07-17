@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-mailvalid",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "n8n community node for MailValid — real-time and bulk email verification (syntax, MX, SMTP, disposable and role-based detection)",
   "keywords": [
     "n8n-community-node-package",
